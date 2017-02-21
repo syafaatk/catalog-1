@@ -1,0 +1,10 @@
+@font-face {
+  font-family: Roboto;
+  src: url(/static/fonts/Roboto-Regular.ttf);
+}
+
+body {
+  font: 16px/1.7 "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
