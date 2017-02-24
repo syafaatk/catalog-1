@@ -1,3 +1,5 @@
+appdirs==1.4.0
+awesome-slugify==1.6.5
 click==6.7
 Flask==0.12
 Flask-SQLAlchemy==2.1
@@ -5,5 +7,10 @@ gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.9.5
 MarkupSafe==0.23
+packaging==16.8
+pyparsing==2.1.10
+regex==2017.2.8
+six==1.10.0
 SQLAlchemy==1.1.5
+Unidecode==0.4.20
 Werkzeug==0.11.15
