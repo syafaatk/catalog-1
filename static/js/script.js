@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var containerFluid = $('.container-fluid'),
+  var body = $('body'),
       logoutButton = $('.logout'),
       navDrawer = $('.nav__drawer'),
       drawerButton = $('.drawer-button'),
@@ -31,6 +31,6 @@
     navDrawer.attr('aria-hidden', hiddenAria);
     obfuscator.toggleClass('is-visible');
     navDrawer.toggleClass('is-visible');
-    containerFluid.toggleClass('has-nav-drawer');
+    body.toggleClass('has-nav-drawer');
   }
 })();
