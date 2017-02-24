@@ -11,15 +11,19 @@
       <meta http-equiv="refresh" content="0; url=http://enable-javascript.com">
     </noscript>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <!-- <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
     <script defer src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/material.min.js') }}"></script>
   </head>
   <body>
     {% block main_content %}{% endblock %}
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>

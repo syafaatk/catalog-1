@@ -1,13 +1,201 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
-<h1>Flasca</h1>
+<div class="flasca-layout mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header mdl-layout__header--seamed">
+    <div class="mdl-layout-icon"></div>
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout__title">Flasca</span>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+        <a href="#" class="mdl-navigation__link">Log In</a>
+      </nav>
+    </div>
+  </header>
 
-<p>Welcome to <a href="#">Earth</a>.</p>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout__title">Flasca</span>
+    <nav class="mdl-navigation">
+      <a href="#" class="mdl-navigation__link">Log In</a>
+    </nav>
+  </div>
 
-<ul>
-  <li>We</li>
-  <li>Are</li>
-  <li>Lists</li>
-</ul>
+  <main class="mdl-layout__content">
+    <p style="margin-top: 100rem; margin-left: 50rem;">MDL</p>
+    <p style="margin-left: 50rem;">Contents</p>
+    <p style="margin-left: 50rem;">Stay</p>
+    <p style="margin-left: 50rem;">Here</p>
+  </main>
+</div>
+
+<!-- <h1>Flasca</h1>
+
+{% if user %}
+<p>Logged in as <strong>{{ user.name }}</strong></p>
+<form action="{{ url_for('logout') }}" method="post">
+  <input type="hidden" name="csrf_token" value="">
+  <input type="submit" value="Log Out">
+</form>
+{% else %}
+<a href="{{ url_for('login') }}">Log In</a>
+{% endif %}
+
+<hr>
+
+
+{% if categories %}
+<div class="categories">
+  {% for c in categories %}
+  <p><a href="">{{ c.name }}</a></p>
+  {% endfor %}
+</div>
+{% else %}
+<p>No categories exists.</p>
+{% endif %}
+
+<hr>
+<a href="">
+  <button type="button" name="button">Create new item</button>
+</a>
+
+
+{% if items %}
+<div class="items">
+  {% for i in items %}
+  <p>
+    <a href="">{{ i.name }}</a> - <span>{{ i.category.name }}</span> --
+    <span><a href="">Edit</a></span> --
+    <span>Updated on {{ i.date_updated }}</span>
+  </p>
+  {% endfor %}
+</div>
+{% else %}
+<p>No items exists.</p>
+{% endif %} -->
+
+<!-- <div class="container-fluid">
+  <div class="header-layout">
+    <header class="row mx-auto">
+      <div class="col-sm-12 d-flex justify-content-between header-row">
+        <a class="navbar-brand" href="#">Flasca</a>
+        <div class="header-btn">
+          {% if user %}
+          <span class="p-2">{{ user.name }}</span>
+          <a class="" href="#">Log Out</a>
+          {% else %}
+          <a class="" href="{{ url_for('login') }}">Log In</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <nav class="col-sm-12 py-3 d-flex flex-wrap justify-content-between header-navigation">
+        <span class="title mb-3">Browse by category</span>
+        {% if categories %}
+          {% for c in categories %}
+          <a class="header-navigation__link" href="#">{{ c.name }}</a>
+          {% endfor %}
+        {% else %}
+        <p>No categories exists.</p>
+        {% endif %}
+      </nav>
+    </header>
+  </div>
+
+  <div class="content-layout py-3">
+    <main class="row mx-auto">
+      <div class="col-sm-12">
+        <span class="title mb-3">Latest items</span>
+      </div>
+      {% if items %}
+        {% for i in items %}
+        <div class="col-sm-6 col-md-3">
+          <div class="card">
+            <div class="card-block">
+              <h3 class="card-title">{{ i.name }}</h3>
+              <div class="card-text">{{ i.description }}</div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p>No items exists.</p>
+      {% endif %}
+    </main>
+  </div>
+</div> -->
+
+<!-- <div class="container-fluid">
+  <header class="row">
+    <div class="col-sm-12 top-nav">
+      <div class="drawer-button sm-screen-only" role="button" aria-expanded="false" tabindex="0">
+        <i class="material-icons md-36">menu</i>
+      </div>
+      <a class="navbar-brand" href="{{ url_for('index') }}">Flasca</a>
+    </div>
+  </header>
+
+  <div class="nav__drawer sm-screen-only" aria-hidden="true">
+    <span class="navbar-brand mb-3 text-brand">Flasca</span>
+    <div class="side-nav__user mb-3">
+      {% if user %}
+      <span class="side-nav__title mb-2">{{ user.name|truncate(18, True) }}</span>
+      <a class="side-nav__link py-2 logout" href="{{ url_for('logout') }}">Log Out</a>
+      {% else %}
+      <a class="side-nav__link py-2" href="{{ url_for('login') }}">Log In</a>
+      {% endif %}
+    </div>
+    <nav class="side-nav__navigation mb-3">
+      <span class="side-nav__title mb-2">Browse by category</span>
+      {% if categories %}
+        {% for c in categories %}
+        <a class="side-nav__link py-2 mb-1" href="#">{{ c.name }}</a>
+        {% endfor %}
+      {% endif %}
+    </nav>
+  </div>
+
+  <main class="row">
+    <a href="#" style="margin-left: 400px">click me</a>
+    <p class="col-sm-12" style="margin-top: 80rem;margin-left: 400px;">blah blah blah</p>
+    <i class="material-icons md-48" style="margin-left: 400px">face</i>
+  </main>
+
+  <footer class="row"></footer>
+
+  <div class="obfuscator"></div>
+</div> -->
+
+<!-- <div class="container-fluid">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Navbar</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <main>
+    <a href="#" style="margin-left: 400px">click me</a>
+    <p class="col-sm-12" style="margin-top: 80rem;margin-left: 400px;">blah blah blah</p>
+    <i class="material-icons md-48" style="margin-left: 400px">face</i>
+  </main>
+</div> -->
+
 {% endblock %}
