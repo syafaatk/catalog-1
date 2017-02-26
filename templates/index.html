@@ -1,233 +1,97 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
-<!-- <div class="flasca-layout mdl-layout mdl-js-layout">
-  <header class="mdl-layout__header mdl-layout__header--seamed">
-    <div class="mdl-layout-icon"></div>
-    <div class="mdl-layout__header-row">
-      <span class="mdl-layout__title">Flasca</span>
-      <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation">
-        <a href="#" class="mdl-navigation__link">Log In</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout__title">Flasca</span>
-    <nav class="mdl-navigation">
-      <a href="#" class="mdl-navigation__link">Log In</a>
-    </nav>
-  </div>
-
-  <main class="mdl-layout__content">
-    <p style="margin-top: 100rem; margin-left: 250px;">MDL</p>
-    <p style="margin-left: 250px">Contents</p>
-    <p style="margin-left: 250px;">Stay</p>
-    <p style="margin-left: 250px;">Here</p>
-  </main>
-</div> -->
-
-<!-- <h1>Flasca</h1>
-
-{% if user %}
-<p>Logged in as <strong>{{ user.name }}</strong></p>
-<form action="{{ url_for('logout') }}" method="post">
-  <input type="hidden" name="csrf_token" value="">
-  <input type="submit" value="Log Out">
-</form>
-{% else %}
-<a href="{{ url_for('login') }}">Log In</a>
-{% endif %}
-
-<hr>
-
-
-{% if categories %}
-<div class="categories">
-  {% for c in categories %}
-  <p><a href="">{{ c.name }}</a></p>
-  {% endfor %}
-</div>
-{% else %}
-<p>No categories exists.</p>
-{% endif %}
-
-<hr>
-<a href="">
-  <button type="button" name="button">Create new item</button>
-</a>
-
-
-{% if items %}
-<div class="items">
-  {% for i in items %}
-  <p>
-    <a href="">{{ i.name }}</a> - <span>{{ i.category.name }}</span> --
-    <span><a href="">Edit</a></span> --
-    <span>Updated on {{ i.date_updated }}</span>
-  </p>
-  {% endfor %}
-</div>
-{% else %}
-<p>No items exists.</p>
-{% endif %} -->
-
-<!-- <div class="container-fluid">
-  <div class="header-layout">
-    <header class="row mx-auto">
-      <div class="col-sm-12 d-flex justify-content-between header-row">
-        <a class="navbar-brand" href="#">Flasca</a>
-        <div class="header-btn">
-          {% if user %}
-          <span class="p-2">{{ user.name }}</span>
-          <a class="" href="#">Log Out</a>
-          {% else %}
-          <a class="" href="{{ url_for('login') }}">Log In</a>
-          {% endif %}
-        </div>
-      </div>
-
-      <nav class="col-sm-12 py-3 d-flex flex-wrap justify-content-between header-navigation">
-        <span class="title mb-3">Browse by category</span>
-        {% if categories %}
-          {% for c in categories %}
-          <a class="header-navigation__link" href="#">{{ c.name }}</a>
-          {% endfor %}
-        {% else %}
-        <p>No categories exists.</p>
-        {% endif %}
-      </nav>
-    </header>
-  </div>
-
-  <div class="content-layout py-3">
-    <main class="row mx-auto">
-      <div class="col-sm-12">
-        <span class="title mb-3">Latest items</span>
-      </div>
-      {% if items %}
-        {% for i in items %}
-        <div class="col-sm-6 col-md-3">
-          <div class="card">
-            <div class="card-block">
-              <h3 class="card-title">{{ i.name }}</h3>
-              <div class="card-text">{{ i.description }}</div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      {% else %}
-      <p>No items exists.</p>
-      {% endif %}
-    </main>
-  </div>
-</div> -->
-
 <div class="container-fluid">
   <header class="row">
-    <div class="col-sm-12 top-nav">
+    <div class="col-sm-12 top-header">
       <div class="drawer-button sm-screen-only" role="button" aria-expanded="false" tabindex="0">
         <i class="material-icons md-36">menu</i>
       </div>
-      <a class="navbar-brand" href="{{ url_for('index') }}">Flasca</a>
+      <h1 class="navbar-brand site-logo brand-color float-left my-0">Flasca</h1>
+      <div class="top-header__user float-right lg-screen-only">
+        {% if user %}
+        <img class="img-thumbnail d-block float-left mr-3" src="{{ url_for('static', filename='img/babel.jpg') }}" alt="{{ user.name }}'s profile picture'">
+        <div class="float-right">
+          <span class="d-block">{{ user.name|truncate(20, True) }}</span>
+          <a class="py-2 logout d-block" href="{{ url_for('logout') }}">Log Out</a>
+        </div>
+        {% else %}
+        <div class="login-container">
+          <a class="login" href="{{ url_for('login') }}">
+            <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal.png') }}" alt="Google log in">
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="clearfix"></div>
     </div>
   </header>
 
-  <div class="nav__drawer sm-screen-only" aria-hidden="true">
-    <span class="navbar-brand mb-3 text-brand">Flasca</span>
-    <div class="side-nav__user mb-3">
+  <main class="row">
+    <div class="col-sm-12 main-content">
+      <nav class="main-content__nav lg-screen-only float-left mb-4 text-right">
+        <span class="main-content__title">Browse by category</span>
+        {% if categories %}
+          {% for c in categories %}
+          <a class="d-block py-2 mb-1" href="#">{{ c.name }}</a>
+          {% endfor %}
+        {% endif %}
+      </nav>
+      <div class="main-content__item mb-4">
+        <span class="main-content__title">Latest items</span>
+        {% if items %}
+          <div class="row">
+            {% for i in items %}
+            <div class="col-sm-12 col-md-4 mb-3">
+              <div class="card item-card">
+                <a href="#"><img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Displayed picture of {{ i.name }}"></a>
+                <div class="card-block p-0">
+                  <a href="#"><span class="card-title item-card__title">{{ i.name }}</span></a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+        <p>No items exists...</p>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+
+  <footer class="row">
+    <div class="col-sm-12 footer-content">
+      <p class="mt-3">2017 © Flasca</p>
+    </div>
+  </footer>
+
+  <div class="nav-drawer" aria-hidden="true">
+    <span class="navbar-brand mb-4 brand-color d-block text-center">Flasca</span>
+
+    <div class="side-nav__user mb-4">
       {% if user %}
-      <span class="side-nav__title mb-2">{{ user.name|truncate(18, True) }}</span>
-      <a class="side-nav__link py-2 logout" href="{{ url_for('logout') }}">Log Out</a>
+      <img class="img-thumbnail d-block mx-auto mb-3" src="{{ url_for('static', filename='img/babel.jpg') }}" alt="{{ user.name }}'s profile picture'">
+      <span class="d-block text-center">{{ user.name|truncate(18, True) }}</span>
+      <a class="py-2 logout d-block text-center" href="{{ url_for('logout') }}">Log Out</a>
       {% else %}
-      <a class="side-nav__link py-2" href="{{ url_for('login') }}">Log In</a>
+      <div class="login-container mx-auto">
+        <a class="login" href="{{ url_for('login') }}">
+          <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal.png') }}" alt="Google log in">
+        </a>
+      </div>
       {% endif %}
     </div>
-    <nav class="side-nav__navigation mb-3">
+
+    <nav class="mb-4">
       <span class="side-nav__title mb-2">Browse by category</span>
       {% if categories %}
         {% for c in categories %}
-        <a class="side-nav__link py-2 mb-1" href="#">{{ c.name }}</a>
+        <a class="d-block py-2 mb-1" href="#">{{ c.name }}</a>
         {% endfor %}
       {% endif %}
     </nav>
   </div>
 
-  <main class="row">
-    <a href="#" style="margin-left: 250px">click me</a>
-    <p class="col-sm-12" style="margin-top: 80rem;margin-left: 250px;">blah blah blah</p>
-    <i class="material-icons md-48" style="margin-left: 250px">face</i>
-  </main>
-
-  <footer class="row"></footer>
-
   <div class="obfuscator"></div>
 </div>
-
-<!-- <div class="container-fluid">
-  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">Navbar</a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-
-  <main>
-    <a href="#" style="margin-left: 250px">click me</a>
-    <p class="col-sm-12" style="margin-top: 80rem;margin-left: 250px;">blah blah blah</p>
-    <i class="material-icons md-48" style="margin-left: 250px">face</i>
-  </main>
-</div> -->
-
-<!-- <div class="container-fluid">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Launch demo modal
-  </button>
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <main>
-    <a href="#" style="margin-left: 250px;">click me</a>
-    <p class="col-sm-12" style="margin-top: 80rem;margin-left: 250px;">blah blah blah</p>
-    <i class="material-icons md-48" style="margin-left: 250px;">face</i>
-  </main>
-</div> -->
-
 {% endblock %}

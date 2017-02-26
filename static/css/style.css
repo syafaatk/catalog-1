@@ -3,6 +3,7 @@
   src: url(/static/fonts/Roboto-Regular.ttf);
 }
 
+/* TODO: Remove this in production */
 /*@font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -11,97 +12,11 @@
 }*/
 
 body {
+  color: #444;
   font: 16px/1.7 "Roboto", sans-serif;
-  letter-spacing: .5px;
+  letter-spacing: .6px;
   -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-/*.mdl-layout__header {
-  background-color: rgba(255, 255, 255, .8);
-}
-
-.mdl-layout__title,
-.mdl-layout__header-row .mdl-navigation__link {
-  color: #444;
-}
-
-.mdl-layout__drawer-button {
-  color: #444;
-  left: inherit;
-}
-
-.mdl-layout__drawer-button:focus {
-  outline: 0;
-}
-
-.flasca-layout {
-  color: #444;
-  margin: 0 auto;
-  max-width: 800px;
-  position: static;
-}*/
-/*------------------------------------------------------*/
-/*a {
-  color: inherit;
-  padding: 8px;
-}
-
-a:focus {
-  outline: 0;
-}
-
-.container-fluid {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.header-layout {
-  background-color: #222;
-  color: #999;
-  margin: 0 -15px;
-}
-
-.header-layout .row,
-.content-layout .row {
-  max-width: 800px;
-}
-
-.header-row {
-  border-bottom: 1px solid rgba(200, 200, 200, 0.1);
-}
-
-.header-layout .navbar-brand {
-  font-size: 2rem;
-  margin-left: -8px;
-}
-
-.header-btn {
-  line-height: 62px;
-}
-
-.header-navigation__link {
-  display: inline-block;
-  text-align: center;
-  width: 170px;
-}
-
-.content-layout .card {
-  border: 0;
-}
-
-.title {
-  display: block;
-  font-size: 1.25rem;
-  padding-top: .25rem;
-  padding-bottom: .25rem;
-  white-space: nowrap;
-  width: 100%;
-}*/
-
-body.has-nav-drawer {
-  overflow: hidden;
 }
 
 :focus {
@@ -119,6 +34,19 @@ a:hover {
 
 p {
   font-size: inherit;
+}
+
+header {
+  background-color: rgba(10, 10, 10, 0.95);
+  color: #888;
+}
+
+footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.has-nav-drawer {
+  overflow: hidden;
 }
 
 /* MDL recommendation */
@@ -143,13 +71,31 @@ p {
   width: 100%;
 }
 
-.navbar-brand {
-  font-size: 2rem;
+/* App's CSS */
+.brand-color {
+  /*color: rgba(255, 169, 32, 0.85);*/
+  color: rgb(189, 91, 12);
 }
 
-/* App's CSS */
-.text-brand {
-  color: rgba(255, 169, 32, 0.85);
+.site-logo {
+  font-size: 3.5rem;
+  letter-spacing: .6px;
+}
+
+.lg-screen-only {
+  display: none !important;
+}
+
+.top-header__user .img-thumbnail,
+.side-nav__user .img-thumbnail {
+  background-color: inherit;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.login-container {
+  width: 200px;
 }
 
 .drawer-button {
@@ -159,7 +105,7 @@ p {
   overflow: hidden;
   position: fixed;
   text-align: center;
-  top: 15px;
+  top: 20px;
   right: 8px;
   width: 52px;
   height: 52px;
@@ -170,15 +116,40 @@ p {
   vertical-align: middle;
 }
 
-.top-nav .navbar-brand {
-  font-size: 3rem;
+.main-content {
+  margin-top: 35px;
 }
 
-.nav__drawer {
+.main-content__nav {
+  margin-right: 5rem;
+}
+
+.main-content__title {
+  color: inherit;
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.item-card {
+  background-color: transparent;
+  border: 0;
+}
+
+.item-card__title {
+  font-size: 1.25rem;
+}
+
+.footer-content {
+  text-align: center;
+}
+
+.nav-drawer {
   background-color: rgba(0, 0, 0, 0.9);
   color: #999;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   padding: 0 15px;
   position: fixed;
   top: 0;
@@ -194,9 +165,23 @@ p {
   z-index: 10000;
 }
 
-.nav__drawer.is-visible {
+.nav-drawer.is-visible {
   -webkit-transform: translateX(0);
   transform: translateX(0);
+}
+
+.nav-drawer .navbar-brand {
+  font-size: 2rem;
+}
+
+.side-nav__title {
+  background-color: #222;
+  display: block;
+  font-size: 1.25rem;
+  line-height: inherit;
+  margin: 0 -15px;
+  padding: .25rem 15px;
+  white-space: nowrap;
 }
 
 .obfuscator {
@@ -222,28 +207,49 @@ p {
   opacity: 1;
 }
 
-.side-nav__title {
-  background-color: #222;
-  display: block;
-  font-size: 1.25rem;
-  line-height: inherit;
-  margin: 0 -15px;
-  padding: .25rem 15px;
-  white-space: nowrap;
-}
-
-.side-nav__link {
-  display: block;
-}
-
 @media screen and (min-width: 576px) {
+  .top-header,
+  .main-content,
+  .footer-content {
+    margin: 0 auto;
+    max-width: 800px;
+  }
+
+  .top-header {
+    margin: 5rem auto;
+    padding-bottom: 35px;
+  }
+
+  .main-content {
+    position: relative;
+    top: -35px;
+  }
+
+  .main-content__title {
+    color: #888;
+  }
+
+  .lg-screen-only {
+    display: inherit !important;
+  }
+
   .sm-screen-only {
-    display: none;
+    display: none !important;
   }
 }
 
 @media screen and (min-width: 768px) {
+  main {
+    background-color: #f5f5f5;
+  }
 
+  .item-card__title {
+    font-size: inherit;
+  }
+
+  .footer-content {
+    text-align: right;
+  }
 }
 
 @media screen and (min-width: 992px) {
