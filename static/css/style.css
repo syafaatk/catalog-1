@@ -4,12 +4,12 @@
 }
 
 /* TODO: Remove this in production */
-@font-face {
+/*@font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
   src: url(/static/fonts/MaterialIcons-Regular.woff2) format('woff2');
-}
+}*/
 
 body {
   color: #444;
