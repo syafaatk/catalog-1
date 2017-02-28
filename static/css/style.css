@@ -4,12 +4,12 @@
 }
 
 /* TODO: Remove this in production */
-/*@font-face {
+@font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
   src: url(/static/fonts/MaterialIcons-Regular.woff2) format('woff2');
-}*/
+}
 
 body {
   color: #444;
@@ -20,7 +20,7 @@ body {
 }
 
 :focus {
-  outline: 0;
+  outline: 0 !important;
 }
 
 a {
@@ -124,11 +124,32 @@ body.has-nav-drawer {
   margin-right: 5rem;
 }
 
+.main-content__nav.breadcrumb {
+  background-color: transparent;
+  margin-bottom: 0;
+}
+
 .main-content__title {
   color: inherit;
   display: block;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+.main-content__item-text .main-content__title {
+  color: inherit;
+  margin-bottom: 0;
+}
+
+.item-photo__extra {
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+
+.item-photo__extra img {
+  width: 100px;
+  height: 100px;
 }
 
 .item-card {
@@ -207,6 +228,15 @@ body.has-nav-drawer {
   opacity: 1;
 }
 
+.add-button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  z-index: 9998;
+}
+
 @media screen and (min-width: 576px) {
   .top-header,
   .main-content,
@@ -230,7 +260,7 @@ body.has-nav-drawer {
   }
 
   .lg-screen-only {
-    display: inherit !important;
+    display: block !important;
   }
 
   .sm-screen-only {
@@ -241,6 +271,14 @@ body.has-nav-drawer {
 @media screen and (min-width: 768px) {
   main {
     background-color: #f5f5f5;
+  }
+
+  .main-content__item-text {
+    order: 2;
+  }
+
+  .main-content__item-photo {
+
   }
 
   .item-card__title {

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+
+<nav class="breadcrumb main-content__nav lg-screen-only p-0 w-100">
+  <a class="breadcrumb-item main-content__title" href="{{ url_for('index') }}">Flasca</a>
+  <a class="breadcrumb-item main-content__title" href="{{ url_for('category', category=current_category.slug) }}">{{ current_category.name }}</a>
+  <span class="breadcrumb-item  main-content__title active">{{ item.name }}</span>
+</nav>
+
+<div class="main-content__item mb-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 main-content__item-text">
+      <span class="main-content__title w-100">{{ item.name }}</span>
+      <div class="mb-3">
+      {{ item.description }}
+      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel condimentum ipsum, eu feugiat turpis. Nunc semper a leo eget iaculis. Donec cursus scelerisque neque, quis ultricies dui rhoncus vel. In in consequat nisi, vel tempus lacus. Sed accumsan eget sem nec sodales. Vestibulum iaculis nec enim at interdum. Etiam quis felis interdum tortor pharetra varius. Duis vitae pulvinar justo. Morbi congue non enim sit amet rutrum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas sed lorem in erat ornare tempor in eget urna. Morbi ex sapien, bibendum ut facilisis ac, venenatis eu magna. Quisque tincidunt maximus neque, sit amet efficitur nunc aliquam non -->
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 main-content__item-photo">
+      <img class="img-fluid img-thumbnail item-photo__feature mb-3" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Displayed picture of {{ item.name }}">
+      <div class="item-photo__extra pb-3">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s2.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s3.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s2.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s3.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s2.jpg') }}" alt="Other picture of {{ item.name }}">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/s3.jpg') }}" alt="Other picture of {{ item.name }}">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

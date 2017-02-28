@@ -11,7 +11,7 @@
       <meta http-equiv="refresh" content="0; url=http://enable-javascript.com">
     </noscript>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/material.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -20,10 +20,97 @@
     <script defer src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script defer src="{{ url_for('static', filename='js/material.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
   </head>
   <body>
-    {% block main_content %}{% endblock %}
+    <div class="container-fluid">
+      <header class="row">
+        <div class="col-sm-12 top-header">
+          <div class="drawer-button sm-screen-only" role="button" aria-expanded="false" tabindex="0">
+            <i class="material-icons md-36">menu</i>
+          </div>
+          <a href="{{ url_for('index') }}"><h1 class="navbar-brand site-logo brand-color float-left my-0">Flasca</h1></a>
+          <div class="top-header__user float-right lg-screen-only">
+            {% if user %}
+            <img class="img-thumbnail d-block float-left mr-3" src="{{ url_for('static', filename='img/babel.jpg') }}" alt="{{ user.name }}'s profile picture'">
+            <div class="float-right">
+              <span class="d-block">{{ user.name|truncate(20, True) }}</span>
+              <a class="py-2 logout d-block" href="{{ url_for('logout') }}">Log Out</a>
+            </div>
+            {% else %}
+            <div class="login-container">
+              <a class="login" href="{{ url_for('login') }}">
+                <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal.png') }}" alt="Google log in">
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </header>
 
-    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+      <main class="row">
+        <div class="col-sm-12 main-content">
+          {% block main_content %}
+          <nav class="main-content__nav lg-screen-only float-left mb-4 text-right">
+            <span class="main-content__title">Browse by category</span>
+            {% if categories %}
+              {% for c in categories %}
+              <a class="d-block py-2 mb-1" href="{{ url_for('category', category=c.slug) }}">{{ c.name }}</a>
+              {% endfor %}
+            {% endif %}
+          </nav>
+          {% endblock %}
+
+        </div>
+      </main>
+
+      <footer class="row">
+        <div class="col-sm-12 footer-content">
+          <p class="mt-3">2017 © Flasca</p>
+        </div>
+      </footer>
+
+      <div class="nav-drawer" aria-hidden="true">
+        <span class="navbar-brand mb-4 brand-color d-block text-center">Flasca</span>
+
+        <div class="side-nav__user mb-4">
+          {% if user %}
+          <img class="img-thumbnail d-block mx-auto mb-3" src="{{ url_for('static', filename='img/babel.jpg') }}" alt="{{ user.name }}'s profile picture'">
+          <span class="d-block text-center">{{ user.name|truncate(18, True) }}</span>
+          <a class="py-2 logout d-block text-center" href="{{ url_for('logout') }}">Log Out</a>
+          {% else %}
+          <div class="login-container mx-auto">
+            <a class="login" href="{{ url_for('login') }}">
+              <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal.png') }}" alt="Google log in">
+            </a>
+          </div>
+          {% endif %}
+        </div>
+
+        <nav class="mb-4">
+          <span class="side-nav__title mb-2">Browse by category</span>
+          {% if categories %}
+            {% for c in categories %}
+            <a class="d-block py-2 mb-1" href="{{ url_for('category', category=c.slug) }}">{{ c.name }}</a>
+            {% endfor %}
+          {% endif %}
+        </nav>
+      </div>
+
+      <div class="obfuscator"></div>
+
+      {% if user %}
+      <button class="add-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <i class="material-icons">add</i>
+      </button>
+      {% endif %}
+
+      {% with msg = get_flashed_messages() %}
+        {% if msg %}
+
+        {% endif %}
+      {% endwith %}
+    </div>
   </body>
 </html>
