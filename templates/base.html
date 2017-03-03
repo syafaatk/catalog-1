@@ -11,7 +11,7 @@
       <meta http-equiv="refresh" content="0; url=http://enable-javascript.com">
     </noscript>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/material.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -29,13 +29,18 @@
           <div class="drawer-button sm-screen-only" role="button" aria-expanded="false" tabindex="0">
             <i class="material-icons md-36">menu</i>
           </div>
-          <a href="{{ url_for('index') }}"><h1 class="navbar-brand site-logo brand-color float-left my-0">Flasca</h1></a>
+          <div>
+            <a href="{{ url_for('index') }}">
+              <h1 class="navbar-brand site-logo brand-color float-left my-0">Flasca</h1>
+            </a>
+            <!-- <span class="sub-site-logo">A catalog app</span> -->
+          </div>
           <div class="top-header__user float-right lg-screen-only">
             {% if user %}
             <img class="img-thumbnail d-block float-left mr-3" src="{{ url_for('static', filename='img/babel.jpg') }}" alt="{{ user.name }}'s profile picture'">
             <div class="float-right">
               <span class="d-block">{{ user.name|truncate(20, True) }}</span>
-              <a class="py-2 logout d-block" href="{{ url_for('logout') }}">Log Out</a>
+              <a class="logout py-2 d-block" href="{{ url_for('logout') }}" data-csrf-token="{{ csrf_token() }}">Log Out</a>
             </div>
             {% else %}
             <div class="login-container">
@@ -100,17 +105,28 @@
 
       <div class="obfuscator"></div>
 
+      <div tabindex="0" class="login-modal justify-content-center align-items-center" aria-hidden='true'>
+        <div>
+          <h3 class="login-modal__title">Log in with social apps</h3>
+          <div class="login-container mx-auto mb-5">
+            <a class="login" href="{{ url_for('login') }}">
+              <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal_2.png') }}" alt="Google log in">
+            </a>
+          </div>
+          <button class="login-modal__cancel-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect d-block mx-auto">
+            <i class="material-icons">close</i>
+          </button>
+          <span class="login-modal__cancel-button--keyboard">ESC</span>
+        </div>
+      </div>
+
       {% if user %}
-      <button class="add-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-        <i class="material-icons">add</i>
-      </button>
+      <a class="item-add-button" href="{{ url_for('add_item') }}">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+          <i class="material-icons">add</i>
+        </button>
+      </a>
       {% endif %}
-
-      {% with msg = get_flashed_messages() %}
-        {% if msg %}
-
-        {% endif %}
-      {% endwith %}
     </div>
   </body>
 </html>

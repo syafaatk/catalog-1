@@ -1,3 +1,8 @@
+"""config.py.
+
+Production and development mode configurations classes.
+"""
+
 import os
 
 
@@ -6,7 +11,7 @@ DEV_DATABASE = 'sqlite:///{db}'.format(db=os.path.join(BASE_DIR, 'flasca.db'))
 
 
 class Config(object):
-    pass
+    WTF_CSRF_TIME_LIMIT = None
 
 
 class ProductionConfig(Config):

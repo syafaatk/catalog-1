@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Creating new item ..{% endblock %}
+
+{% block main_content %}
+
+<div class="main-content__item mb-4">
+  <span class="main-content__title">Creating new item ...</span>
+  <form class="main-content__item-form" action="" method="post">
+    {{ form.csrf_token }}
+    {% if form.name.errors %}
+      {% for err in form.name.errors %}
+      <span class="field-error d-block">{{ err }}</span>
+      {% endfor %}
+    {% endif %}
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label d-block">
+      {{ form.name(id='item-name', class='mdl-textfield__input', pattern='[A-Z,a-z, ]*', required='true', autofocus='True') }}
+      {{ form.name.label(class='mdl-textfield__label mb-0', for='item-name') }}
+      <span class="mdl-textfield__error">Letters and spaces only</span>
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label d-block">
+      {{ form.description(id='item-description', class='mdl-textfield__input', type='text', rows='4') }}
+      {{ form.description.label(class='mdl-textfield__label mb-0', for='item-description') }}
+    </div>
+    <div class="mb-3">
+      {{form.category_id.label}} - {{ form.category_id }}
+    </div>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary mb-3" type="submit">Create</button>
+  </form>
+</div>
+
+{% endblock %}
