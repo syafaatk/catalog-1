@@ -10,9 +10,9 @@
       {% for i in items %}
       <div class="col-sm-6 col-md-4 mb-3">
         <div class="card item-card">
-          <a href="#"><img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Displayed picture of {{ i.name }}"></a>
+          <a href="{{ url_for('item', category=i.category.slug, item=i.slug) }}"><img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Displayed picture of {{ i.name }}"></a>
           <div class="card-block p-0">
-            <a href="#"><span class="card-title item-card__title">{{ i.name }}</span></a>
+            <a href="{{ url_for('item', category=i.category.slug, item=i.slug) }}"><span class="card-title item-card__title">{{ i.name }}</span></a>
           </div>
         </div>
       </div>
