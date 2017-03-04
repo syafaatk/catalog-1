@@ -22,11 +22,19 @@
       {{ form.description(id='item-description', class='mdl-textfield__input', type='text', rows='4') }}
       {{ form.description.label(class='mdl-textfield__label mb-0', for='item-description') }}
     </div>
-    <div class="mb-3">
+    <div class="mb-5">
       {{form.category_id.label}} - {{ form.category_id }}
     </div>
     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary mb-3" type="submit">Update</button>
   </form>
 </div>
 
+{% endblock %}
+
+{% block floated_button %}
+<a class="floated-button" href="{{ url_for('index') }}">
+  <button class="cancel-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+    <i class="material-icons">close</i>
+  </button>
+</a>
 {% endblock %}

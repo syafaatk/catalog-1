@@ -2,6 +2,7 @@
   'use strict';
 
   var body = $('body'),
+      loginButton = $('.login'),
       logoutButton = $('.logout'),
       navDrawer = $('.nav-drawer'),
       drawerButton = $('.drawer-button'),
@@ -10,6 +11,7 @@
       loginModal = $('.login-modal'),
       loginModalCancelButton = $('.login-modal__cancel-button');
 
+  loginButton.click(toggleLoginModal);
   logoutButton.click(logout);
   drawerButton.click(toggleNavDrawer);
   obfuscator.click(toggleNavDrawer);

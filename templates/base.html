@@ -23,6 +23,15 @@
     <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
   </head>
   <body>
+    <!-- FB JavaScript SDK -->
+    <!-- <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script> -->
     <div class="container-fluid">
       <header class="row">
         <div class="col-sm-12 top-header">
@@ -44,9 +53,7 @@
             </div>
             {% else %}
             <div class="login-container">
-              <a class="login" href="{{ url_for('login') }}">
-                <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal.png') }}" alt="Google log in">
-              </a>
+              <button class="login">Log In</button>
             </div>
             {% endif %}
           </div>
@@ -85,10 +92,8 @@
           <span class="d-block text-center">{{ user.name|truncate(18, True) }}</span>
           <a class="py-2 logout d-block text-center" href="{{ url_for('logout') }}">Log Out</a>
           {% else %}
-          <div class="login-container mx-auto">
-            <a class="login" href="{{ url_for('login') }}">
-              <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal.png') }}" alt="Google log in">
-            </a>
+          <div class="login-container">
+            <button class="login d-block mx-auto">Log In</button>
           </div>
           {% endif %}
         </div>
@@ -109,9 +114,10 @@
         <div>
           <h3 class="login-modal__title">Log in with social apps</h3>
           <div class="login-container mx-auto mb-5">
-            <a class="login" href="{{ url_for('login') }}">
+            <a href="{{ url_for('login') }}">
               <img class="img-fluid" src="{{ url_for('static', filename='img/gbtn_normal_2.png') }}" alt="Google log in">
             </a>
+            <!-- <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div> -->
           </div>
           <button class="login-modal__cancel-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect d-block mx-auto">
             <i class="material-icons">close</i>
@@ -121,11 +127,13 @@
       </div>
 
       {% if user %}
-      <a class="item-add-button" href="{{ url_for('add_item') }}">
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-          <i class="material-icons">add</i>
-        </button>
-      </a>
+        {% block floated_button %}
+        <a class="floated-button" href="{{ url_for('add_item') }}">
+          <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+            <i class="material-icons">add</i>
+          </button>
+        </a>
+        {% endblock %}
       {% endif %}
     </div>
   </body>
