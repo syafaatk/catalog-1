@@ -90,7 +90,7 @@
           {% if user %}
           <img class="img-thumbnail d-block mx-auto mb-3" src="{{ url_for('static', filename='img/babel.jpg') }}" alt="{{ user.name }}'s profile picture'">
           <span class="d-block text-center">{{ user.name|truncate(18, True) }}</span>
-          <a class="py-2 logout d-block text-center" href="{{ url_for('logout') }}">Log Out</a>
+          <a class="logout py-2 d-block text-center" href="{{ url_for('logout') }}" data-csrf-token="{{ csrf_token() }}">Log Out</a>
           {% else %}
           <div class="login-container">
             <button class="login d-block mx-auto">Log In</button>
