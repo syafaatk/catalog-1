@@ -23,13 +23,12 @@ body {
   outline: 0 !important;
 }
 
-a {
+a,
+a:hover,
+a:focus,
+a:active {
   color: inherit;
-}
-
-a:hover {
-  color: inherit;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 p {
@@ -39,6 +38,10 @@ p {
 header {
   background-color: rgba(10, 10, 10, 0.95);
   color: #888;
+}
+
+main {
+  background-color: #f5f5f5;
 }
 
 footer {
@@ -72,6 +75,18 @@ body.has-modal {
   width: 100%;
 }
 
+/* MDL overrides */
+.mdl-card {
+  min-height: 0;
+  width: 100%;
+}
+
+.mdl-card__supporting-text {
+  font-size: inherit;
+  line-height: inherit;
+  width: 100%;
+}
+
 /* App's CSS */
 .brand-color {
   /*color: rgba(255, 169, 32, 0.85);*/
@@ -79,29 +94,21 @@ body.has-modal {
 }
 
 .site-logo {
-  font-size: 3.5rem;
+  font-size: 3rem;
   letter-spacing: .6px;
+  line-height: inherit;
+  padding: .25rem 0;
 }
-
-/*.sub-site-logo {
-  color: #666;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  margin-left: 15px;
-  margin-bottom: 31px;
-}*/
 
 .lg-screen-only {
   display: none !important;
 }
 
-.top-header__user .img-thumbnail,
-.side-nav__user .img-thumbnail {
+.img-thumbnail--circle {
   background-color: inherit;
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 
 .login-container {
@@ -116,23 +123,19 @@ body.has-modal {
   color: #757575;
   cursor: pointer;
   font-family: "Roboto";
-  font-size: 15px;
   font-weight: bold;
   height: 41px;
   outline: none;
-  padding: 0 16px;
-  text-transform: none;
   width: 130px;
 }
 
 .drawer-button {
   border: 0;
-  display: block;
   line-height: 52px;
   overflow: hidden;
   position: fixed;
   text-align: center;
-  top: 20px;
+  top: 13px;
   right: 8px;
   width: 52px;
   height: 52px;
@@ -160,23 +163,45 @@ body.has-modal {
   color: inherit;
   display: block;
   font-size: 1.5rem;
+  line-height: inherit;
+  margin: 0;
   margin-bottom: 1.5rem;
 }
 
-.main-content__item-text .main-content__title {
-  color: inherit;
-  margin-bottom: 0;
-}
-
+.edit-form__item-photo,
 .item-photo__extra {
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
   white-space: nowrap;
 }
 
-.item-photo__extra img {
-  width: 100px;
-  height: 100px;
+.edit-form__item-photo > .mdl-card {
+  display: inline-block;
+  width: auto;
+}
+
+.item-card__photo,
+.edit-form__item-photo-content,
+.item-photo__extra-content {
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: cover;
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+}
+
+.item-photo__extra-content {
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
+}
+
+.photo-delete-button {
+  background-color: rgb(238,238,238);
+}
+
+.photo-delete-button:hover {
+  background-color: rgb(238,238,238);
 }
 
 .main-content__item-form .mdl-textfield__input {
@@ -192,8 +217,22 @@ body.has-modal {
   border: 0;
 }
 
+.item-card__photo {
+  background-position: center;
+  width: 100%;
+  height: 300px;
+}
+
+.no-image {
+  background-color: rgb(255,171,64);
+  font-size: 5rem;
+  font-weight: bold;
+}
+
 .item-card__title {
-  font-size: 1.25rem;
+  font-size: 1.25rem;  /* Mobile screen rendering */
+  line-height: inherit;
+  margin: 0;
 }
 
 .footer-content {
@@ -226,18 +265,16 @@ body.has-modal {
   transform: translateX(0);
 }
 
-.nav-drawer .navbar-brand {
+.nav-drawer__title {
   font-size: 2rem;
 }
 
-.side-nav__title {
+.nav-drawer__nav-title {
   background-color: #222;
   display: block;
   font-size: 1.25rem;
-  line-height: inherit;
   margin: 0 -15px;
   padding: .25rem 15px;
-  white-space: nowrap;
 }
 
 .login-modal {
@@ -279,7 +316,6 @@ body.has-modal {
   font-size: .9rem;
   font-weight: bold;
   letter-spacing: 1.2px;
-  padding-top: 5px;
   text-align: center;
 }
 
@@ -319,17 +355,40 @@ body.has-modal {
   background-color: rgb(238,238,238);
 }
 
+.floated-button .item-delete-button {
+  background-color: #d85050;
+  color: #fff;
+}
+
 @media screen and (min-width: 576px) {
-  .top-header,
+  .login-modal__title {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .lg-screen-only {
+    display: block !important;
+  }
+
+  .sm-screen-only {
+    display: none !important;
+  }
+
+  .header-content,
   .main-content,
   .footer-content {
     margin: 0 auto;
     max-width: 800px;
   }
 
-  .top-header {
+  .header-content {
     margin: 5rem auto;
     padding-bottom: 35px;
+  }
+
+  .site-logo {
+    font-size: 3.5rem;
   }
 
   .main-content {
@@ -341,44 +400,26 @@ body.has-modal {
     color: #888;
   }
 
-  .lg-screen-only {
-    display: block !important;
-  }
-
-  .sm-screen-only {
-    display: none !important;
-  }
-
-  .login-modal__title {
-    font-size: 2rem;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  main {
-    background-color: #f5f5f5;
-  }
-
   .main-content__item-text {
     order: 2;
   }
 
-  .main-content__item-photo {
-
+  .item-card__photo {
+    height: 150px;
   }
 
   .item-card__title {
     font-size: inherit;
-  }
-
-  .footer-content {
-    text-align: right;
   }
 }
 
 @media screen and (min-width: 992px) {
   .login-modal__cancel-button--keyboard {
     display: block;
+  }
+
+  .footer-content {
+    text-align: right;
   }
 }
 

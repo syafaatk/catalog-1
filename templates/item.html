@@ -5,41 +5,45 @@
 {% block main_content %}
 
 <nav class="breadcrumb main-content__nav lg-screen-only p-0 w-100">
-  <a class="breadcrumb-item main-content__title" href="{{ url_for('index') }}">Flasca</a>
+  <a class="breadcrumb-item main-content__title" href="{{ url_for('index') }}">Home</a>
   <a class="breadcrumb-item main-content__title" href="{{ url_for('category', category=current_category.slug) }}">{{ current_category.name }}</a>
   <span class="breadcrumb-item  main-content__title active">{{ item.name }}</span>
 </nav>
 
 <div class="main-content__item mb-4">
   <div class="row">
-    <div class="col-sm-12 col-md-6 main-content__item-text">
-      <span class="main-content__title w-100">{{ item.name }}</span>
-      {% if user %}
-      <a href="{{ url_for('edit_item', item=item.slug) }}">edit</a>
-      <span class="px-1">•</span>
-      <a class="item-delete-button" href="{{ url_for('delete_item', item=item.slug) }}" data-csrf-token="{{ csrf_token() }}">delete</a>
-      {% endif %}
-      <div class="mb-3">
-      {{ item.description }}
-      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel condimentum ipsum, eu feugiat turpis. Nunc semper a leo eget iaculis. Donec cursus scelerisque neque, quis ultricies dui rhoncus vel. In in consequat nisi, vel tempus lacus. Sed accumsan eget sem nec sodales. Vestibulum iaculis nec enim at interdum. Etiam quis felis interdum tortor pharetra varius. Duis vitae pulvinar justo. Morbi congue non enim sit amet rutrum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas sed lorem in erat ornare tempor in eget urna. Morbi ex sapien, bibendum ut facilisis ac, venenatis eu magna. Quisque tincidunt maximus neque, sit amet efficitur nunc aliquam non -->
-      </div>
-    </div>
+    <div class="col-sm-12 col-md-6 main-content__item-text mb-3">
+      <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+          <h3 class="mdl-card__title-text">{{ item.name }}</h3>
+        </div>
+        <div class="mdl-card__supporting-text">
+          {{ bleach_clean(item.description) }}
+        </div>
+        {% if user and user.id == item.creator_id %}
+        <div class="mdl-card__menu">
+          <a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" href="{{ url_for('edit_item', item=item.slug) }}" title="Edit the item">
+            <i class="material-icons">edit</i>
+          </a>
+        </div>
+        {% endif %}
+      </div> <!-- /.mdl-card -->
+    </div> <!-- /.main-content__item-text -->
 
+    {% if item.photos.count() %}
     <div class="col-sm-12 col-md-6 main-content__item-photo">
-      <img class="img-fluid img-thumbnail item-photo__feature mb-3" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Displayed picture of {{ item.name }}">
+      <img class="img-fluid img-thumbnail mb-3" src="{{ item.photos.order_by('-id').first().url }}" alt="Featured picture of {{ item.name }}">
+
       <div class="item-photo__extra pb-3">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s2.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s3.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s2.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s3.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s2.jpg') }}" alt="Other picture of {{ item.name }}">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/s3.jpg') }}" alt="Other picture of {{ item.name }}">
+        {% for p in item.photos %}
+        <a href="{{ p.url }}" target="_blank" title="See the bigger picture">
+          <div class="item-photo__extra-content" style="background-image: url({{ p.url }})"></div>
+        </a>
+        {% endfor %}
       </div>
-    </div>
-  </div>
-</div>
+    </div> <!-- /.col .main-content__item-photo -->
+    {% endif %}
+  </div> <!-- /.row -->
+</div> <!-- /.main-content__item -->
 
 {% endblock %}

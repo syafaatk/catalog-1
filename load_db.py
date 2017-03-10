@@ -37,14 +37,14 @@ if not Category.query.all():
     db.session.commit()
 
 
-if not Item.query.all():
-    print('Loading Item data ...')
-    ul = len(users)
-    items = [
-        Item('Skate Board', 2, randint(1, ul), 'Skate board for human.'),
-        Item('Goggles', 1, randint(1, ul), 'Goggles for snowboarding.'),
-        Item('Bat', 5, randint(1, ul), 'The bat used by the Dark Knight.'),
-        Item('Stick', 9, randint(1, ul), 'Stick made of gold for Hockey'),
-    ]
-    db.session.add_all(items)
-    db.session.commit()
+# if not Item.query.all():
+#     print('Loading Item data ...')
+#     ul = len(users)
+#     items = [
+#         Item('Skate Board', 2, randint(1, ul), 'Skate board for human.'),
+#         Item('Goggles', 1, randint(1, ul), 'Goggles for snowboarding.'),
+#         Item('Bat', 5, randint(1, ul), 'The bat used by the Dark Knight.'),
+#         Item('Stick', 9, randint(1, ul), 'Stick made of gold for Hockey'),
+#     ]
+#     db.session.add_all(items)
+#     db.session.commit()

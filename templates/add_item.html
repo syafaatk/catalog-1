@@ -1,38 +1,50 @@
 {% extends 'base.html' %}
 
+{% from '_form_macros.html' import field_error %}
+
 {% block page_title %}Creating new item ..{% endblock %}
 
 {% block main_content %}
 
 <div class="main-content__item mb-4">
-  <span class="main-content__title">Creating new item ...</span>
-  <form class="main-content__item-form" action="" method="post">
+  <h3 class="main-content__title">Creating new item ...</h3>
+  <form class="main-content__item-form" action="" method="post" enctype="multipart/form-data">
     {{ form.csrf_token }}
-    {% if form.name.errors %}
-      {% for err in form.name.errors %}
-      <span class="field-error d-block">{{ err }}</span>
-      {% endfor %}
-    {% endif %}
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label d-block">
-      {{ form.name(id='item-name', class='mdl-textfield__input', pattern='[A-Z,a-z, ]*', required='true', autofocus='True') }}
+
+    <!-- Item name -->
+    {{ field_error(form.name.errors) }}
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label d-block mb-4">
+      {{ form.name(id='item-name', class='mdl-textfield__input', pattern='[A-Z,a-z, ,0-9]*', required='true', autofocus='True') }}
       {{ form.name.label(class='mdl-textfield__label mb-0', for='item-name') }}
-      <span class="mdl-textfield__error">Letters and spaces only</span>
+      <span class="mdl-textfield__error">Letters, numbers, and spaces only</span>
     </div>
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label d-block">
+
+    <!-- Item description -->
+    {{ field_error(form.description.errors) }}
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label d-block mb-4">
       {{ form.description(id='item-description', class='mdl-textfield__input', type='text', rows='4') }}
       {{ form.description.label(class='mdl-textfield__label mb-0', for='item-description') }}
     </div>
+
+    <!-- Item category -->
     <div class="mb-5">
-      {{form.category_id.label}} - {{ form.category_id }}
+      {{ field_error(form.category_id.errors) }}
+      {{ form.category_id.label }} - {{ form.category_id }}
+    </div>
+
+    <!-- Item photo -->
+    <div class="mb-5">
+      {{ field_error(form.photos.errors) }}
+      {{ form.photos.label }} - {{ form.photos(multiple='true') }}
     </div>
     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary mb-3" type="submit">Create</button>
   </form>
-</div>
+</div> <!-- /.main-content__item -->
 
 {% endblock %}
 
 {% block floated_button %}
-<a class="floated-button" href="{{ url_for('index') }}">
+<a class="floated-button" href="{{ url_for('index') }}" title="Go back to home">
   <button class="cancel-button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
     <i class="material-icons">close</i>
   </button>

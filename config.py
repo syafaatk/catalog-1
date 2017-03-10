@@ -7,10 +7,14 @@ import os
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DEV_DATABASE = 'sqlite:///{db}'.format(db=os.path.join(BASE_DIR, 'flasca.db'))
+DEV_DATABASE = 'sqlite:///{}'.format(os.path.join(BASE_DIR, 'catalog.db'))
 
 
 class Config(object):
+    UPLOADS_DEFAULT_DEST = BASE_DIR + '/usercontent/img/'
+    UPLOADS_DEFAULT_URL = 'http://localhost:5000/usercontent/img/'
+    UPLOADED_IMAGES_DEST = BASE_DIR + '/usercontent/img/'
+    UPLOADED_IMAGES_URL = 'http://localhost:5000/usercontent/img/'
     WTF_CSRF_TIME_LIMIT = None
 
 

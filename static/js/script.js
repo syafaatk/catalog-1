@@ -8,6 +8,7 @@
       drawerButton = $('.drawer-button'),
       obfuscator = $('.obfuscator'),
       itemDeleteButton = $('.item-delete-button'),
+      photoDeleteButton = $('.photo-delete-button'),
       loginModal = $('.login-modal'),
       loginModalCancelButton = $('.login-modal__cancel-button');
 
@@ -16,6 +17,7 @@
   drawerButton.click(toggleNavDrawer);
   obfuscator.click(toggleNavDrawer);
   itemDeleteButton.click(deleteItem);
+  photoDeleteButton.click(deletePhoto);
   loginModalCancelButton.click(toggleLoginModal);
   loginModal.keydown(toggleLoginModalByKeyboard);
 
@@ -28,29 +30,21 @@
     }
   });
 
-  // Preset the AJAX POST request
-  function presetAJAX(CSRFToken) {
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader('X-CSRFToken', CSRFToken);
-        }
+  // Prepare the AJAX POST request
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader('X-CSRFToken', $('.csrf-token').text());
       }
-    });
-  }
+    }
+  });
 
   // Log the user out
   function logout(e) {
     e.preventDefault();
-    var elem = $(e.target),
-        CSRFToken = elem.data('csrfToken'),
-        url = elem.attr('href');
-    presetAJAX(CSRFToken);
-    $.ajax({
-      method: 'POST',
-      url: url
-    })
+    $.post($(e.target).attr('href'))
       .done(function(data) {
+        console.log(data);
         window.location = '/';
       })
       .fail(function(data) {
@@ -72,20 +66,26 @@
   // Delete the item
   function deleteItem(e) {
     e.preventDefault();
-    var elem = $(e.target),
-        CSRFToken = elem.data('csrfToken'),
-        url = elem.attr('href');
-    presetAJAX(CSRFToken);
-    $.ajax({
-      method: 'POST',
-      url: url
-    })
+    $.post($(e.target).closest('a').attr('href'))
       .done(function(data) {
+        console.log(data);
         window.location = '/';
       })
       .fail(function(xhr) {
         console.log('CSRF Token not valid');
-        console.log(xhr);
+        console.log(xhr.status);
+      });
+  }
+
+  // Delete the ItemPhoto
+  function deletePhoto(e) {
+    e.preventDefault();
+    $.post($(e.target).attr('href'))
+      .done(function(data) {
+        $(e.target).closest('.mdl-card').remove();
+        console.log(data);
+      })
+      .fail(function(xhr) {
         console.log(xhr.status);
       });
   }

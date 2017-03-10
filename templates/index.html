@@ -4,23 +4,29 @@
 {{ super() }}
 
 <div class="main-content__item d-flex flex-wrap mb-4">
-  <span class="main-content__title">Latest items</span>
+  <h3 class="main-content__title">Latest items</h3>
   {% if items %}
-    <div class="row">
+    <div class="row w-100 mx-auto">
       {% for i in items %}
       <div class="col-sm-6 col-md-4 mb-3">
-        <div class="card item-card">
-          <a href="{{ url_for('item', category=i.category.slug, item=i.slug) }}"><img class="img-fluid" src="{{ url_for('static', filename='img/s1.jpg') }}" alt="Displayed picture of {{ i.name }}"></a>
-          <div class="card-block p-0">
-            <a href="{{ url_for('item', category=i.category.slug, item=i.slug) }}"><span class="card-title item-card__title">{{ i.name }}</span></a>
-          </div>
-        </div>
-      </div>
+        <a href="{{ url_for('item', category=i.category.slug, item=i.slug) }}" title="Browse to {{ i.name }}">
+          <div class="card item-card">
+            {% if i.photos.first() %}
+            <div class="item-card__photo" style="background-image: url({{ i.photos.first().url }})"></div>
+            {% else %}
+            <div class="item-card__photo no-image d-flex justify-content-center align-items-center">{{ i.name[0] }}</div>
+            {% endif %}
+            <div class="card-block p-0">
+              <h4 class="card-title item-card__title">{{ i.name }}</h4>
+            </div>
+          </div> <!-- /.card .item-card -->
+        </a>
+      </div> <!-- /.col -->
       {% endfor %}
-    </div>
+    </div> <!-- /.row -->
   {% else %}
   <p class="w-100 py-2">No items exists...</p>
   {% endif %}
-</div>
+</div> <!-- /.main-content__item -->
 
 {% endblock %}
