@@ -3,6 +3,7 @@
 
   var body = $('body'),
       loginButton = $('.login'),
+      gSignin = $('#g-signin'),
       logoutButton = $('.logout'),
       navDrawer = $('.nav-drawer'),
       drawerButton = $('.drawer-button'),
@@ -13,6 +14,7 @@
       loginModalCancelButton = $('.login-modal__cancel-button');
 
   loginButton.click(toggleLoginModal);
+  gSignin.click(googleSignin);
   logoutButton.click(logout);
   drawerButton.click(toggleNavDrawer);
   obfuscator.click(toggleNavDrawer);
@@ -38,6 +40,34 @@
       }
     }
   });
+
+  function googleSignin(e) {
+    e.preventDefault();
+    // `auth2` is defined in <script/> in <head/> of base.html
+    auth2.grantOfflineAccess().then(gSigninCallback);
+  }
+
+  function gSigninCallback(authResult) {
+    if (authResult.code) {
+      $.ajax({
+        method: 'POST',
+        url: '/login/google/',
+        headers: {
+          // Already set by Jquery by default, explicit is better though
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        contentType: 'application/octet-stream; charset=utf-8',
+        success: function(result) {
+          console.log(result);
+          window.location = '/';
+        },
+        processData: false,
+        data: authResult.code
+      });
+    } else {
+      console.log('authResult error: ' + authResult.error);
+    }
+  }
 
   // Log the user out
   function logout(e) {

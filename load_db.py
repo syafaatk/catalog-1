@@ -4,23 +4,23 @@ from catalog import db
 from models import User, Category, Item
 
 
-if not User.query.all():
-    print('Loading User data ...')
-    users = [
-        User('Andrea Bocelli', 'abocelli@gmail.com'),
-        User('Louise', 'lou@gmail.com'),
-        User('Simon Pegg', 'spegg@yahoo.com'),
-        User('Daisy Ridley', 'dridley@yahoo.com'),
-        User('Ben Affleck', 'baffleck@yahoo.com'),
-        User('Bryce Dallas Howard', 'bdhoward@yahoo.com'),
-        User('Matt Damon', 'mdamon@yahoo.com'),
-        User('Zoe Saldana', 'zsaldana@yahoo.com'),
-    ]
-    db.session.add_all(users)
-    db.session.commit()
+# if not User.query.count():
+#     print('Loading User data ...')
+#     users = [
+#         User('Andrea Bocelli', 'abocelli@gmail.com'),
+#         User('Louise', 'lou@gmail.com'),
+#         User('Simon Pegg', 'spegg@yahoo.com'),
+#         User('Daisy Ridley', 'dridley@yahoo.com'),
+#         User('Ben Affleck', 'baffleck@yahoo.com'),
+#         User('Bryce Dallas Howard', 'bdhoward@yahoo.com'),
+#         User('Matt Damon', 'mdamon@yahoo.com'),
+#         User('Zoe Saldana', 'zsaldana@yahoo.com'),
+#     ]
+#     db.session.add_all(users)
+#     db.session.commit()
 
 
-if not Category.query.all():
+if not Category.query.count():
     print('Loading Category data ...')
     cats = [
         Category('Snowboarding'),   # ID 1
@@ -37,7 +37,7 @@ if not Category.query.all():
     db.session.commit()
 
 
-# if not Item.query.all():
+# if not Item.query.count():
 #     print('Loading Item data ...')
 #     ul = len(users)
 #     items = [

@@ -26,12 +26,16 @@ class User(Base):
 
     __tablename__ = 'users'
 
+    google_uid = db.Column(db.String, index=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, index=True, unique=True, nullable=False)
+    photo = db.Column(db.String)
 
-    def __init__(self, name, email):
+    def __init__(self, name, email, photo=None, google_uid=None):
         self.name = name
         self.email = email
+        self.photo = photo
+        self.google_uid = google_uid
 
     def __repr__(self):
         return '<User(email={})>'.format(self.email)

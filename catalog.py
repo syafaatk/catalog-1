@@ -10,9 +10,13 @@ from datetime import date
 from uuid import uuid4
 
 import bleach
+import httplib2
 
+from apiclient import discovery
+from oauth2client import client
 from flask import (Flask, render_template, session, redirect, make_response,
-                   url_for, request, send_from_directory, jsonify, Markup)
+                   url_for, request, send_from_directory, jsonify, Markup,
+                   g, flash)
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_uploads import (UploadSet, IMAGES, configure_uploads,
@@ -43,10 +47,6 @@ from decorators import auth_required
 # Load the fake data from this module
 import load_db
 
-print(app.debug)
-print(app.secret_key)
-print(app.config['SQLALCHEMY_DATABASE_URI'])
-
 
 # Jinja 2 Template functions
 @app.context_processor
@@ -54,6 +54,14 @@ def utility_processor():
     def bleach_clean(s):
         return Markup(bleach.clean(s).replace('\n', '<br>'))
     return dict(bleach_clean=bleach_clean)
+
+
+# Set all the app wide data
+@app.before_request
+def get_general_data():
+    g.APP_NAME = 'Catalog'
+    g.COPYRIGHT_YEAR = date.today().strftime('%Y')
+    g.G_CLIENT_ID = '717661788461-hvt4hniaeqpeg7gt9dsmtgpvhbv8hsku.apps.googleusercontent.com'
 
 
 def resp(http_code=200, message=None, content_type='application/json'):
@@ -69,23 +77,72 @@ def resp(http_code=200, message=None, content_type='application/json'):
     return resp_
 
 
+# Google OAuth sign in
+def g_login():
+    if session.get('uid'):
+        return resp(message='Already logged in.')
+
+    if not request.headers.get('X-Requested-With'):
+        return resp(403, 'Potential CSRF attack.')
+    auth_code = request.data
+    CLIENT_SECRET_FILE = 'client_secret.json'
+
+    # Exchange auth code for access token, refresh token and ID token
+    try:
+        credentials = client.credentials_from_clientsecrets_and_code(
+            CLIENT_SECRET_FILE,
+            ['openid', 'profile', 'email'],
+            auth_code
+        )
+    except client.FlowExchangeError:
+        return resp(401, 'Code exchange failed.')
+
+    # Call Google API
+    http_auth = credentials.authorize(httplib2.Http())
+    service = discovery.build('plus', 'v1', http=http_auth)
+    profile = service.people().get(userId='me').execute()
+
+    # Get profile info from ID token
+    google_uid = credentials.id_token['sub']
+    email = credentials.id_token['email']
+    name = profile['displayName']
+    photo = profile['image']['url']
+
+    # Create user or not
+    u = User.query.filter_by(google_uid=google_uid).first()
+    if not u:
+        u = User(name, email, photo, google_uid)
+        db.session.add(u)
+        db.session.commit()
+    session.update(uid=u.id, google_uid=google_uid, provider='google',
+                   credentials=credentials.to_json())
+    return resp(message='Everything looks good.')
+
+
+# Revoke Google OAuth access
+def revoke_g_access():
+    credentials = client.OAuth2Credentials.from_json(session['credentials'])
+    revocation = credentials.revoke(httplib2.Http())
+    if revocation is not None:
+        return resp(400, 'Token revocation failed.')
+    return resp('Revocation done.')
+
+
 def index():
-    u = User.query.get(session.get('uid', 0))
+    u = User.query.get(session.get('uid', 0))  # User may or may not exist
     cats = Category.query.order_by(Category.name).all()
     items = Item.query.order_by(Item.date_created.desc()).all()
     return render_template('index.html', user=u, categories=cats, items=items)
 
 
-def login():
-    # Fake user sign in
-    if 'uid' not in session:
-        from random import randint
-        session['uid'] = randint(1, 8)
-    return redirect(url_for('index'))
-
-
 def logout():
-    session.pop('uid')
+    if 'uid' not in session:
+        flash('You must log in to log out, huh!', 'warning')
+        return redirect(url_for('index', _anchor='login'))
+    if session.get('provider') == 'google':
+        # revoke_g_access()
+        pass
+    session.clear()
     if request.is_xhr:
         return resp(message='Logged out.')
     return redirect(url_for('index'))
@@ -93,7 +150,7 @@ def logout():
 
 # Display the category and the items belong to it.
 def single_category(category):
-    u = User.query.get(session.get('uid', 0))
+    u = User.query.get(session.get('uid', 0))  # User may or may not exist
     c = Category.query.filter_by(slug=category).first_or_404()
     cats = Category.query.order_by(Category.name).all()
     items = Item.query.filter_by(
@@ -104,7 +161,7 @@ def single_category(category):
 
 # Display the item in details.
 def single_item(category, item):
-    u = User.query.get(session.get('uid', 0))
+    u = User.query.get(session.get('uid', 0))  # User may or may not exist
     c = Category.query.filter_by(slug=category).first_or_404()
     i = Item.query.filter_by(slug=item, category_id=c.id).first_or_404()
     cats = Category.query.order_by(Category.name).all()
@@ -142,7 +199,7 @@ def get_item_photo_list(item_id):
 
 @auth_required
 def add_item():
-    u = User.query.get(session.get('uid', 0))
+    u = User.query.get(session.get('uid', 0))  # User must exist
     cats = Category.query.order_by(Category.name).all()
     form = ItemForm()
     form.category_id.choices = [(c.id, c.name) for c in cats]
@@ -161,7 +218,7 @@ def add_item():
 
 @auth_required
 def edit_item(item):
-    u = User.query.get(session.get('uid', 0))
+    u = User.query.get(session.get('uid', 0))  # User must exist
     i = Item.query.filter_by(slug=item).first_or_404()
     cats = Category.query.order_by(Category.name).all()
     form = ItemForm(name=i.name, description=i.description,
@@ -236,7 +293,7 @@ def nojs():
 
 # URL rules
 app.add_url_rule('/', 'index', index)
-app.add_url_rule('/login/', 'login', login)
+app.add_url_rule('/login/google/', 'g_login', g_login, methods=['POST'])
 app.add_url_rule('/logout/', 'logout', logout, methods=['POST'])
 app.add_url_rule('/catalog/', 'index', index)
 app.add_url_rule('/catalog/<category>/', 'category', single_category)

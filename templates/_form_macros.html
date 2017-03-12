@@ -1,7 +1,0 @@
-{% macro field_error(errors) -%}
-  {% if errors %}
-    {% for err in errors %}
-    <span class="field-error d-block">{{ err }}</span>
-    {% endfor %}
-  {% endif %}
-{%- endmacro %}
