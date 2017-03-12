@@ -1,0 +1,25 @@
+{% macro field_error(errors) -%}
+  {% if errors %}
+    {% for err in errors %}
+    <span class="field-error d-block">{{ err }}</span>
+    {% endfor %}
+  {% endif %}
+{%- endmacro %}
+
+{% macro flash_message(class) %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        {% if category == 'error' %}
+        <span class="{{ class }} text-danger">{{ msg }}</span>
+        {% elif category == 'warning' %}
+        <span class="{{ class }} text-warning">{{ msg }}</span>
+        {% elif category == 'info' %}
+        <span class="{{ class }} text-info">{{ msg }}</span>
+        {% else %}
+        <span class="{{ class }} text-success">{{ msg }}</span>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+{%- endmacro %}
