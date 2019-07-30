@@ -21,6 +21,3 @@ or this
 $ python wsgi.py
 ```
 Now the app is listening on port `5000` of `localhost`, [http://localhost:5000](http://localhost:5000).
-
-## Or
-Visit [https://flasca.herokuapp.com](https://flasca.herokuapp.com)
